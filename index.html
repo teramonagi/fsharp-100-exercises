@@ -41,13 +41,18 @@
       <div class="row" style="margin-top:30px">
         <div class="span1"></div>
         <div class="span10" id="main">
-          <h1>100 FSharp exercises</h1>
+          <a href="https://github.com/teramonagi/fsharp-100-exercises"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+<h1>100 FSharp exercises</h1>
 
 <p>This is FSharp version of <a href="http://www.loria.fr/~rougier/teaching/numpy.100/">100 numpy exercises</a></p>
 
 <p>Latest version of 100 numpy excercises are available at <a href="https://github.com/rougier/numpy-100">this repository</a>.</p>
 
-<p>In this document, I used F# core library and <a href="http://numerics.mathdotnet.com/">Math.NET Numerics</a>.</p>
+<p>The source of this document is available at <a href="https://github.com/teramonagi/fsharp-100-exercises">https://github.com/teramonagi/fsharp-100-exercises</a> .
+And your pull request is always welcome!!!</p>
+
+<p>In this document, F# core library and <a href="http://numerics.mathdotnet.com/">Math.NET Numerics</a> are used.</p>
 
 <h1>Neophyte</h1>
 
@@ -397,17 +402,17 @@
 </table>
 
 <table class="pre"><tr><td><pre><code>component: 0
-0.9413090.5439590.597982
-0.9973380.7645380.730750
-0.0552340.1138920.547292
+0.2282240.4880440.743476
+0.1553930.9714580.030269
+0.9775290.1308920.324373
 component: 1
-0.1168100.2591240.000510
-0.6159970.2050340.248225
-0.2833430.1536530.670909
+0.6924070.3297080.660717
+0.4398020.8474580.754757
+0.5087780.5677840.285294
 component: 2
-0.8966030.1096150.829560
-0.5201920.3566980.289199
-0.8975750.5584730.067623</code></pre></td></tr></table>
+0.3675350.4748740.142618
+0.0398580.6388320.861594
+0.0655650.1722050.063754</code></pre></td></tr></table>
 
 <p>...or, since there is no strong support for Array3D class in F#, you may write the following :</p>
 
@@ -428,17 +433,17 @@ component: 2
 </table>
 
 <table class="pre"><tr><td><pre><code>component: 0
-[[0.5359930673; 0.0343043795; 0.6413835947]
- [0.4044056844; 0.2478684682; 0.09935979084]
- [0.5054579785; 0.01259610477; 0.614676433]]
+[[0.4369190794; 0.8954319758; 0.005110961387]
+ [0.8057159995; 0.2729404752; 0.0690222611]
+ [0.2025579765; 0.9077047226; 0.3763105699]]
 component: 1
-[[0.6003427839; 0.7878595436; 0.003462704831]
- [0.3530852577; 0.3293030897; 0.6791351804]
- [0.6413432745; 0.1171167493; 0.4083697802]]
+[[0.9104514764; 0.09758283342; 0.1791742212]
+ [0.07493485793; 0.6768230743; 0.9435392595]
+ [0.2519746675; 0.4293735388; 0.4455703229]]
 component: 2
-[[0.3445676176; 0.05490351238; 0.8498483402]
- [0.1467029132; 0.9648084901; 0.1575253518]
- [0.7276129782; 0.02362676385; 0.3946805258]]</code></pre></td></tr></table>
+[[0.3305234217; 0.8840262601; 0.313163418]
+ [0.5420009231; 0.413780879; 0.6861593903]
+ [0.4015340383; 0.180178803; 0.1407145612]]</code></pre></td></tr></table>
 
 <h3>Math.NET Numerics</h3>
 
@@ -464,21 +469,21 @@ component: 2
 
 <table class="pre"><tr><td><pre><code>component: 0
 DenseMatrix 3x3-Double
-0.730161  0.894389  0.955393
-0.449867  0.741853  0.155148
-0.829742  0.767298  0.109083
+0.946894   0.63251  0.128048
+0.880954  0.568915  0.763379
+0.737812  0.859371   0.75254
 
 component: 1
 DenseMatrix 3x3-Double
-0.0512815  0.615667   0.89565
- 0.882806  0.555818  0.367126
- 0.475088  0.528653  0.622562
+0.609899  0.0733536  0.222501
+0.373914   0.522992  0.935794
+0.567649   0.934437   0.38971
 
 component: 2
 DenseMatrix 3x3-Double
-0.597306  0.450098  0.518594
-0.686126  0.218586  0.262115
-0.929804  0.764556    0.5882</code></pre></td></tr></table>
+ 0.688988  0.639197   0.87947
+0.0179461  0.908338   0.47107
+0.0866256  0.525272  0.829935</code></pre></td></tr></table>
 
 <h1>Novice</h1>
 
@@ -551,7 +556,7 @@ DenseMatrix 3x3-Double
 </tr>
 </table>
 
-<table class="pre"><tr><td><pre><code>0.008615, 0.995930</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.024665, 0.995679</code></pre></td></tr></table>
 
 <h3>Math.NET Numerics</h3>
 
@@ -571,7 +576,7 @@ DenseMatrix 3x3-Double
 </tr>
 </table>
 
-<table class="pre"><tr><td><pre><code>0.000076, 0.991255</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.002969, 0.998091</code></pre></td></tr></table>
 
 <h2>3. Create a checkerboard 8x8 matrix using the tile function</h2>
 
@@ -832,7 +837,7 @@ DenseMatrix 3x3-Double
 </tr>
 </table>
 
-<table class="pre"><tr><td><pre><code>seq [0.2206277909; 0.2390490883; 0.2808581485; 0.4426390945; ...]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>seq [0.0642660009; 0.1794151264; 0.3012518051; 0.633590048; ...]</code></pre></td></tr></table>
 
 <h2>9. Consider two random array A anb B, check if they are equal.</h2>
 
@@ -855,6 +860,8 @@ DenseMatrix 3x3-Double
 </table>
 
 <table class="pre"><tr><td><pre><code>false</code></pre></td></tr></table>
+
+<h3>Math.NET Numerics</h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
@@ -894,7 +901,9 @@ DenseMatrix 3x3-Double
 </tr>
 </table>
 
-<table class="pre"><tr><td><pre><code>0.519555</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.520355</code></pre></td></tr></table>
+
+<h3>Math.NET Numerics</h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
@@ -910,7 +919,43 @@ DenseMatrix 3x3-Double
 </tr>
 </table>
 
-<table class="pre"><tr><td><pre><code>0.570870</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.412306</code></pre></td></tr></table>
+
+<h1>Apprentice</h1>
+
+<h2>1. Make an array immutable (read-only)</h2>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+ <span class="c">//List is immutable in F# but it does not allow us to do random access.</span>
+ <span class="c">(*** define-output:apprentice_1_c ***)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs116', 531)" onmouseover="showTip(event, 'fs116', 531)" class="i">Z</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs117', 532)" onmouseover="showTip(event, 'fs117', 532)" class="i">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs118', 533)" onmouseover="showTip(event, 'fs118', 533)" class="i">init</span> <span class="n">10</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span> <span class="n">0</span>)
+<span class="c">//It does not work.</span>
+<span class="c">//Z.[0] &lt;- 1</span></pre>
+</td>
+</tr>
+</table>
+
+<table class="pre"><tr><td><pre><code>Could not find reference 'apprentice_1_c'</code></pre></td></tr></table>
+
+<h3>Math.NET Numerics</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="c">//There is no way to make an array immutable.</span></pre>
+</td>
+</tr>
+</table>
 
 <p>... To be continued.</p>
 
@@ -1029,6 +1074,9 @@ DenseMatrix 3x3-Double
 <div class="tip" id="fs113">val average : array:&#39;T [] -&gt; &#39;T (requires member ( + ) and member DivideByInt and member get_Zero)<br /><br />Full name: Microsoft.FSharp.Collections.Array.average</div>
 <div class="tip" id="fs114">type Statistics =<br />&#160;&#160;static member Covariance : samples1:IEnumerable&lt;float&gt; * samples2:IEnumerable&lt;float&gt; -&gt; float + 1 overload<br />&#160;&#160;static member EmpiricalCDF : data:IEnumerable&lt;float&gt; * x:float -&gt; float + 1 overload<br />&#160;&#160;static member EmpiricalCDFFunc : data:IEnumerable&lt;float&gt; -&gt; Func&lt;float, float&gt; + 1 overload<br />&#160;&#160;static member EmpiricalInvCDF : data:IEnumerable&lt;float&gt; * tau:float -&gt; float + 1 overload<br />&#160;&#160;static member EmpiricalInvCDFFunc : data:IEnumerable&lt;float&gt; -&gt; Func&lt;float, float&gt; + 1 overload<br />&#160;&#160;static member Entropy : data:IEnumerable&lt;float&gt; -&gt; float + 1 overload<br />&#160;&#160;static member FiveNumberSummary : data:IEnumerable&lt;float&gt; -&gt; float[] + 1 overload<br />&#160;&#160;static member InterquartileRange : data:IEnumerable&lt;float&gt; -&gt; float + 1 overload<br />&#160;&#160;static member Kurtosis : samples:IEnumerable&lt;float&gt; -&gt; float + 1 overload<br />&#160;&#160;static member LowerQuartile : data:IEnumerable&lt;float&gt; -&gt; float + 1 overload<br />&#160;&#160;...<br /><br />Full name: MathNet.Numerics.Statistics.Statistics</div>
 <div class="tip" id="fs115">Statistics.Mean(data: System.Collections.Generic.IEnumerable&lt;System.Nullable&lt;float&gt;&gt;) : float<br />Statistics.Mean(data: System.Collections.Generic.IEnumerable&lt;float&gt;) : float</div>
+<div class="tip" id="fs116">val Z : int list<br /><br />Full name: Fsharp-100-exercises.Z</div>
+<div class="tip" id="fs117">Multiple items<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;member Head : &#39;T<br />&#160;&#160;member IsEmpty : bool<br />&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;member Length : int<br />&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;static member Cons : head:&#39;T * tail:&#39;T list -&gt; &#39;T list<br />&#160;&#160;static member Empty : &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List&lt;_&gt;</div>
+<div class="tip" id="fs118">val init : length:int -&gt; initializer:(int -&gt; &#39;T) -&gt; &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List.init</div>
 
 
                     
