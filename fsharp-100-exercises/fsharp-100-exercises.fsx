@@ -157,8 +157,8 @@ printfn "%A" Z
 ### F# Core Library
 *)
 (*** define-output:neophyte_10-1_c ***)
-let rand_core = System.Random()
-let Z = Array3D.init<float> 3 3 3 (fun _ _ _ -> rand_core.NextDouble())
+let rand = System.Random()
+let Z = Array3D.init<float> 3 3 3 (fun _ _ _ -> rand.NextDouble())
 for z in [0..2] do
     printfn "component: %d" z
     for y in [0..2] do
@@ -170,18 +170,19 @@ for z in [0..2] do
 ...or, since there is no strong support for Array3D class in F#, you may write the following :
 *)
 (*** define-output:neophyte_10-2_c ***)
-let Z = Array.init 3 (fun z -> Array2D.init<float> 3 3 (fun _ _ -> rand_core.NextDouble()))
+let rand = System.Random()
+let Z = Array.init 3 (fun z -> Array2D.init<float> 3 3 (fun _ _ -> rand.NextDouble()))
 for z in [0..2] do
     printfn "component: %d" z
     printfn "%A" Z.[z]
 (*** include-output:neophyte_10-2_c ***)
 (** 
 ### Math.NET Numerics 
-I used the type "Array of DenseMatix" here because there is no 3D Vector in core Math.NET.
 *)
 (*** define-output:neophyte_10_m ***)
-let rand_mathnet = new MathNet.Numerics.Distributions.ContinuousUniform()
-let Z = Array.init 3 (fun _ -> DenseMatrix.random<float> 3 3 rand_mathnet)
+//I used the type "Array of DenseMatix" here because there is no 3D Vector in core Math.NET.
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = Array.init 3 (fun _ -> DenseMatrix.random<float> 3 3 rand)
 for z in [0..2] do
     printfn "component: %d" z
     printfn "%A" Z.[z]
@@ -210,7 +211,8 @@ printfn "%A" Z
 ### F# Core Library
 *)
 (*** define-output:novice_2_c ***)
-let Z = Array2D.init 10 10 (fun i j -> rand_core.NextDouble())
+let rand = System.Random()
+let Z = Array2D.init 10 10 (fun i j -> rand.NextDouble())
 let Zmin = Z |> Seq.cast<float> |> Seq.min
 let Zmax = Z |> Seq.cast<float> |> Seq.max
 printfn "%f, %f" Zmin Zmax
@@ -219,7 +221,8 @@ printfn "%f, %f" Zmin Zmax
 ### Math.NET Numerics 
 *)
 (*** define-output:neophyte_2_m ***)
-let Z = DenseMatrix.random<float> 10 10 rand_mathnet
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseMatrix.random<float> 10 10 rand
 let Zmin = Matrix.reduce min Z  
 let Zmax = Matrix.reduce max Z  
 printfn "%f, %f" Zmin Zmax
@@ -248,22 +251,24 @@ printfn "%A" Z
 ### F# Core Library
 *)
 (*** define-output:novice_4_c ***)
+let rand = System.Random()
 let Z = Array2D.init 5 5 (fun i j -> rand.NextDouble())
 let Zmin = Z |> Seq.cast<float> |> Seq.min
 let Zmax = Z |> Seq.cast<float> |> Seq.max
-let Z = Z |> Array2D.map (fun z -> (z-Zmin)/(Zmax-Zmin))
-printfn "%A" Z
+let Z2 = Z |> Array2D.map (fun z -> (z-Zmin)/(Zmax-Zmin))
+printfn "%A" Z2
 (*** include-output:novice_4_c ***)
 
 (** 
 ### Math.NET Numerics 
 *)
-(*** define-output:neophyte_4_m ***)
-let Z = DenseMatrix.random<float> 5 5 rand_mathnet
+(*** define-output:novice_4_m ***)
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseMatrix.random<float> 5 5 rand
 let Zmin = Matrix.reduce min Z  
 let Zmax = Matrix.reduce max Z  
-let Z = Matrix.map (fun z -> (z-Zmin)/(Zmax-Zmin) ) Z
-printfn "%A" Z
+let Z2 = Matrix.map (fun z -> (z-Zmin)/(Zmax-Zmin) ) Z
+printfn "%A" Z2
 (*** include-output:novice_4_m ***)
 
 (**
@@ -304,20 +309,19 @@ printfn "%A" Z
 
 (**
 ## 7. Create a vector of size 10 with values ranging from 0 to 1, both excluded
-It it little bit different from numpy's answer because there is no equivalent method with linspace in F#/Math.NET.
+It it little bit different from numpy's answer because there is no equivalent method with numpy's linspace in F#/Math.NET.
 ### F# Core Library
 *)
 (*** define-output:novice_7_c ***)
-let Z = Array.init 12 (fun i -> 1.0/11.0*(float i))
-let Z = Array.sub Z 1 10
-printfn "%A" Z
+let Z = Array.init 12 (fun i -> 1.0/11.0*(float i)) 
+let Z2 = Array.sub Z 1 10
+printfn "%A" Z2
 (*** include-output:novice_7_c ***)
 (**
 ### Math.NET Numerics
 *)
 (*** define-output:novice_7_m ***)
-let Z = DenseVector.rangef 0.0 (1.0/11.0) 1.0
-let Z = Z.SubVector(1, 10)
+let Z = (DenseVector.rangef 0.0 (1.0/11.0) 1.0).SubVector(1, 10)
 printfn "%A" Z
 (*** include-output:novice_7_m ***)
 
@@ -326,15 +330,16 @@ printfn "%A" Z
 ### F# Core Library
 *)
 (*** define-output:novice_8_c ***)
-let Z = Array.init 10 (fun _ -> rand_core.NextDouble())
-let Z = Z |> Array.sort 
+let rand = System.Random()
+let Z = Array.init 10 (fun _ -> rand.NextDouble()) |> Array.sort 
 printfn "%A" Z
 (*** include-output:novice_8_c ***)
 (**
 ### Math.NET Numerics
 *)
 (*** define-output:novice_8_m ***)
-let Z = DenseVector.random<float> 10 rand_mathnet
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseVector.random<float> 10 rand
 MathNet.Numerics.Sorting.Sort(Z)
 printfn "%A" Z
 (*** include-output:novice_8_m ***)
@@ -345,8 +350,9 @@ printfn "%A" Z
 ### F# Core Library
 *)
 (*** define-output:novice_9_c ***)
-let A = Array.init 5 (fun _ -> rand_core.Next(2))
-let B = Array.init 5 (fun _ -> rand_core.Next(2))
+let rand = System.Random()
+let A = Array.init 5 (fun _ -> rand.Next(2))
+let B = Array.init 5 (fun _ -> rand.Next(2))
 let equal = Array.forall2 (=) A B
 printfn "%A" equal
 (*** include-output:novice_9_c ***)
@@ -354,9 +360,9 @@ printfn "%A" equal
 ### Math.NET Numerics
 *)
 (*** define-output:novice_9_m ***)
-let rand_mathnet2 = new MathNet.Numerics.Distributions.DiscreteUniform(0, 1)
-let A = rand_mathnet2.Samples() |> Seq.take 5 |> Seq.map float |> DenseVector.ofSeq
-let B = rand_mathnet2.Samples() |> Seq.take 5 |> Seq.map float |> DenseVector.ofSeq
+let rand = new MathNet.Numerics.Distributions.DiscreteUniform(0, 1)
+let A = rand.Samples() |> Seq.take 5 |> Seq.map float |> DenseVector.ofSeq
+let B = rand.Samples() |> Seq.take 5 |> Seq.map float |> DenseVector.ofSeq
 let equal = A=B
 printfn "%A" equal
 (*** include-output:novice_9_m ***)
@@ -366,7 +372,8 @@ printfn "%A" equal
 ### F# Core Library
 *)
 (*** define-output:novice_10_c ***)
-let Z = Array.init 30 (fun _ -> rand_core.NextDouble())
+let rand = System.Random()
+let Z = Array.init 30 (fun _ -> rand.NextDouble())
 let m = Z |> Array.average
 printfn "%f" m
 (*** include-output:novice_10_c ***)
@@ -374,7 +381,8 @@ printfn "%f" m
 ### Math.NET Numerics
 *)
 (*** define-output:novice_10_m ***)
-let Z = DenseVector.random<float> 30 rand_mathnet
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseVector.random<float> 30 rand
 let m = Z |> Statistics.Mean
 printfn "%f" m
 (*** include-output:novice_10_m ***)
@@ -382,17 +390,86 @@ printfn "%f" m
 (**
 # Apprentice
 ## 1. Make an array immutable (read-only)
+### F# Core Library
 *)
- //List is immutable in F# but it does not allow us to do random access.
- (*** define-output:apprentice_1_c ***)
+//List is immutable in F# but it does not allow us to do random access.
 let Z = List.init 10 (fun _ -> 0)
 //It does not work.
 //Z.[0] <- 1
-(*** include-output:apprentice_1_c ***)
 (**
 ### Math.NET Numerics
 *)
 //There is no way to make an array immutable.
+
+(**
+## 2. Consider a random 10x2 matrix representing cartesian coordinates, convert them to polar coordinates
+### F# Core Library
+*)
+(*** define-output:apprentice_2_c ***)
+let rand = System.Random()
+let Z = Array2D.init 10 2 (fun _ _ -> rand.NextDouble())
+let X, Y = Z.[*,0], Z.[*,1]
+let R = Array.map2 (fun x y -> sqrt(x*x+y*y)) X Y
+let T = Array.map2 (fun x y -> System.Math.Atan2(y, x)) X Y
+printfn "%A" R
+printfn "%A" T
+(*** include-output:apprentice_2_c ***)
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_2_m ***)
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseMatrix.random<float> 10 2 rand
+let X, Y = Z.[*,0], Z.[*,1]
+let R = X.*X + Y.*Y |> Vector.map sqrt
+let T = Y./X |> Vector.map System.Math.Atan
+printfn "%A" R
+printfn "%A" T
+(*** include-output:apprentice_2_m ***)
+
+(**
+## 3. Create random vector of size 10 and replace the maximum value by 0
+### F# Core Library
+*)
+(*** define-output:apprentice_3_c ***)
+let rand = System.Random()
+let Z = Array.init 10 (fun _ -> rand.NextDouble())
+let Zmax = Array.max Z
+Z.[Array.findIndex ((=) Zmax) Z] <- 0.
+printfn "%A" Z
+(*** include-output:apprentice_3_c ***)
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_3_m ***)
+let rand = MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseVector.random<float> 10 rand
+Z.[Vector.maxIndex Z] <- 0.
+printfn "%A" Z
+(*** include-output:apprentice_3_m ***)
+
+(**
+## 4. Create a structured array with ``x`` and ``y`` coordinates covering the [0,1]x[0,1] area.
+There is no way to assign name to Array2D/Matrix. 
+We might should use [Deedle](http://bluemountaincapital.github.io/Deedle/) in this situation.
+### F# Core Library
+*)
+(*** define-output:apprentice_4_c ***)
+let element = Array.init 10 (fun i -> 1.0/9.0*(float i)) 
+let Z = Array2D.init 10 10 (fun i j -> (element.[j], element.[i]))
+printfn "%A" Z
+(*** include-output:apprentice_4_c ***)
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_4_m ***)
+//We can not use the type Matrix<(float, float)> type as a output.
+let element = DenseVector.rangef 0.0 (1.0/9.0) 1.0
+let Z = Array2D.init 10 10 (fun i j -> (element.[j], element.[i]))
+printfn "%A" Z
+(*** include-output:apprentice_4_m ***)
+
+
 
 (**
 ... To be continued.
