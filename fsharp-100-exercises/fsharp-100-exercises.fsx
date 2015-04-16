@@ -2,12 +2,17 @@
 #load "packages/FsLab/FsLab.fsx"
 
 (**
+<a href="https://github.com/teramonagi/fsharp-100-exercises"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
 # 100 FSharp exercises
 This is FSharp version of [100 numpy exercises](http://www.loria.fr/~rougier/teaching/numpy.100/)
 
 Latest version of 100 numpy excercises are available at [this repository](https://github.com/rougier/numpy-100).
 
-In this document, I used F# core library and [Math.NET Numerics](http://numerics.mathdotnet.com/).
+The source of this document is available at https://github.com/teramonagi/fsharp-100-exercises .
+And your pull request is always welcome!!!
+
+In this document, F# core library and [Math.NET Numerics](http://numerics.mathdotnet.com/) are used.
 *)
 
 (**
@@ -345,6 +350,9 @@ let B = Array.init 5 (fun _ -> rand_core.Next(2))
 let equal = Array.forall2 (=) A B
 printfn "%A" equal
 (*** include-output:novice_9_c ***)
+(**
+### Math.NET Numerics
+*)
 (*** define-output:novice_9_m ***)
 let rand_mathnet2 = new MathNet.Numerics.Distributions.DiscreteUniform(0, 1)
 let A = rand_mathnet2.Samples() |> Seq.take 5 |> Seq.map float |> DenseVector.ofSeq
@@ -362,12 +370,29 @@ let Z = Array.init 30 (fun _ -> rand_core.NextDouble())
 let m = Z |> Array.average
 printfn "%f" m
 (*** include-output:novice_10_c ***)
+(**
+### Math.NET Numerics
+*)
 (*** define-output:novice_10_m ***)
 let Z = DenseVector.random<float> 30 rand_mathnet
 let m = Z |> Statistics.Mean
 printfn "%f" m
 (*** include-output:novice_10_m ***)
 
+(**
+# Apprentice
+## 1. Make an array immutable (read-only)
+*)
+ //List is immutable in F# but it does not allow us to do random access.
+ (*** define-output:apprentice_1_c ***)
+let Z = List.init 10 (fun _ -> 0)
+//It does not work.
+//Z.[0] <- 1
+(*** include-output:apprentice_1_c ***)
+(**
+### Math.NET Numerics
+*)
+//There is no way to make an array immutable.
 
 (**
 ... To be continued.
