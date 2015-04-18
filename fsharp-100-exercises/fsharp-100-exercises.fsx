@@ -470,6 +470,25 @@ printfn "%A" Z
 (*** include-output:apprentice_4_m ***)
 
 
+(**
+## 5. Print the minimum and maximum representable value for each numpy scalar type
+These are not types but functions for type conversion like int8, float32 in the below codes.
+I used these functions to get its type with Reflection.
+*)
+(*** define-output:apprentice_5_1 ***)
+[int8.GetType(); int32.GetType(); int64.GetType()] |> 
+    List.iter (fun x -> 
+        printfn "%A" (x.BaseType.GenericTypeArguments.[1].GetField("MinValue").GetValue())
+        printfn "%A" (x.BaseType.GenericTypeArguments.[1].GetField("MaxValue").GetValue()))        
+(*** include-output:apprentice_5_1 ***)
+
+(*** define-output:apprentice_5_2 ***)
+[float32.GetType(); float.GetType()] |> 
+    List.iter (fun x -> 
+        printfn "%A" (x.BaseType.GenericTypeArguments.[1].GetField("MinValue").GetValue())
+        printfn "%A" (x.BaseType.GenericTypeArguments.[1].GetField("MaxValue").GetValue())        
+        printfn "%A" (x.BaseType.GenericTypeArguments.[1].GetField("Epsilon").GetValue()))
+(*** include-output:apprentice_5_2 ***)
 
 (**
 ... To be continued.
