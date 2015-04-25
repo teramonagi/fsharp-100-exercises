@@ -490,6 +490,84 @@ I used these functions to get its type with Reflection.
         printfn "%A" (x.BaseType.GenericTypeArguments.[1].GetField("Epsilon").GetValue()))
 (*** include-output:apprentice_5_2 ***)
 
+
+(**
+## 6. Create a structured array representing a position (x,y) and a color (r,g,b)
+There is no way to assign name to Array2D/Matrix. 
+We might should use [Deedle](http://bluemountaincapital.github.io/Deedle/) in this situation.
+The code I showed below is not so looks good to me...
+*)
+(*** define-output:apprentice_6 ***)
+type NamedSequence<'T> = System.Collections.Generic.IDictionary<string, 'T>
+let Z = Array.init 10 (fun i -> 
+    dict[
+        "position", dict["x", 0.0; "y", 0.0]; 
+        "color", dict["r", 0.0; "g", 0.0; "b", 0.0]
+    ]
+)
+printfn "%A" (Array.map (fun (z:NamedSequence<NamedSequence<float>>) -> z.["color"]) Z)
+(*** include-output:apprentice_6 ***)
+
+(**
+## 7. Consider a random vector with shape (100,2) representing coordinates, find point by point distances
+We use 10 row cases to reduce the output.
+### F# Core Library
+*)
+(*** define-output:apprentice_7_c ***)
+let rand = System.Random()
+let product xs ys = [| for x in xs do for y in ys  -> (x, y)|]
+let distance (x: float*float) (y: float*float) = 
+    let dx = fst x - snd x
+    let dy = fst y - snd y
+    sqrt(dx*dx+dy*dy)
+let Z = Array2D.init 10 2 (fun _ _ -> rand.NextDouble())
+let X, Y = Z.[*,0], Z.[*,1]
+let xs = (product X X)
+let ys = (product Y Y)
+let D = Array.map2 distance xs ys 
+printfn "%A"  (Array2D.init 10 10 (fun i j -> D.[i + j*10]))
+(*** include-output:apprentice_7_c ***)
+
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_7_c ***)
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseMatrix.random<float> 10 2 rand
+let X, Y = Z.[*,0], Z.[*,1]
+printfn "%A" (DenseMatrix.Create(10, 10, (fun i j -> sqrt((X.[i]-X.[j])**2.0 + (Y.[i]-Y.[j])**2.0))))
+(*** include-output:apprentice_7_c ***)
+
+
+(**
+## 8. Generate a generic 2D Gaussian-like array
+### F# Core Library
+*)
+(*** define-output:apprentice_8_c ***)
+let element = Array.init 10 (fun i -> -1.0 + 1.0/4.5*(float i)) 
+let Z = Array2D.init 10 10 (fun i j -> (element.[j], element.[i])) |> Seq.cast<float*float> |> Array.ofSeq
+let D = Array.map (fun z -> sqrt( (fst z)**2.0 + (snd z)**2.0 )) Z
+let sigma, mu = 1.0, 0.0
+let G = Array.map (fun d -> exp((d-mu)**2.0/(-2.0*sigma**2.0))) D
+printfn "%A" G
+(*** include-output:apprentice_8_c ***)
+
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_9_c ***)
+let element = Array.init 10 (fun i -> -1.0 + 1.0/4.5*(float i)) 
+let Z = Array2D.init 10 10 (fun i j -> (element.[j], element.[i])) |> Seq.cast<float*float> |> Array.ofSeq
+let D = DenseVector.init 100 (fun i -> sqrt( (fst Z.[i])**2.0 + (snd Z.[i])**2.0 ))
+let sigma, mu = 1.0, 0.0
+let G = D.Subtract(mu).PointwisePower(2.0).Divide(-2.0*sigma**2.0).PointwiseExp()
+//... Or more simply
+//let G = Vector.map (fun d -> exp((d-mu)**2.0/(-2.0*sigma**2.0))) D 
+printfn "%A" G
+(*** include-output:apprentice_9_c ***)
+
+
+
 (**
 ... To be continued.
 *)
