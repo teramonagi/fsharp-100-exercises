@@ -555,7 +555,7 @@ printfn "%A" G
 (**
 ### Math.NET Numerics
 *)
-(*** define-output:apprentice_9_c ***)
+(*** define-output:apprentice_8_m ***)
 let element = Array.init 10 (fun i -> -1.0 + 1.0/4.5*(float i)) 
 let Z = Array2D.init 10 10 (fun i j -> (element.[j], element.[i])) |> Seq.cast<float*float> |> Array.ofSeq
 let D = DenseVector.init 100 (fun i -> sqrt( (fst Z.[i])**2.0 + (snd Z.[i])**2.0 ))
@@ -564,9 +564,34 @@ let G = D.Subtract(mu).PointwisePower(2.0).Divide(-2.0*sigma**2.0).PointwiseExp(
 //... Or more simply
 //let G = Vector.map (fun d -> exp((d-mu)**2.0/(-2.0*sigma**2.0))) D 
 printfn "%A" G
+(*** include-output:apprentice_8_m ***)
+
+(**
+## 9. How to tell if a given 2D array has null columns ?
+### F# Core Library
+*)
+(*** define-output:apprentice_9_c ***)
+//First, We extend Array2D module to add foldByColumn
+module Array2D =
+    let foldByColumn folder state array = 
+        let size = Array2D.length2 array - 1
+        [|for col in [0..size] -> array.[*, col] |> Array.fold folder state|]
+//Sample data
+let Z = array2D [|[|1.0; nan; nan; nan; 2.0;|]; [|1.0; 2.0; 3.0; 4.0; 5.0|]|]
+printfn "%A" (Z |> Array2D.foldByColumn (fun x y -> x || System.Double.IsNaN(y)) false)
 (*** include-output:apprentice_9_c ***)
 
-
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_9_m ***)
+let Z = matrix [[1.0; nan; nan; nan; 2.0;]; [1.0; 2.0; 3.0; 4.0; 5.0]]
+printfn "%A" (Z |> 
+    Matrix.foldByCol(fun x y -> x + System.Convert.ToDouble(System.Double.IsNaN(y))) 0.0 |>
+    Seq.cast<float> |> 
+    Seq.toArray |> 
+    Array.map (fun x -> System.Convert.ToBoolean(x)))
+(*** include-output:apprentice_9_m ***)
 
 (**
 ... To be continued.
