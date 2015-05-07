@@ -9,6 +9,7 @@ nuget FSharp.Data
 nuget Foogle.Charts
 nuget MathNet.Numerics
 nuget MathNet.Numerics.FSharp
+nuget MathNet.Numerics.Data.Text
 nuget RProvider
 nuget R.NET.Community
 nuget R.NET.Community.FSharp

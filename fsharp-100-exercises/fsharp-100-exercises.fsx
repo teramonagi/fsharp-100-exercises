@@ -1,5 +1,6 @@
 (*** hide ***)
 #load "packages/FsLab/FsLab.fsx"
+System.Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 (**
 <a href="https://github.com/teramonagi/fsharp-100-exercises"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
@@ -23,6 +24,7 @@ We use Math.NET Numerics libraries instead of numpy.
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.Statistics
+open MathNet.Numerics.Data.Text;
 (**
 ## 2. Print the Fsharp version and the configuration.
 *)
@@ -592,6 +594,55 @@ printfn "%A" (Z |>
     Seq.toArray |> 
     Array.map (fun x -> System.Convert.ToBoolean(x)))
 (*** include-output:apprentice_9_m ***)
+
+
+(**
+## 10. Find the nearest value from a given value in an array
+### F# Core Library
+*)
+(*** define-output:apprentice_10_c ***)
+let rand = System.Random()
+let Z = Array.init<float> 10(fun _ -> rand.NextDouble())
+let z = 0.5
+Seq.minBy (fun x -> abs (x-z)) Z |> printfn "%A" 
+(*** include-output:apprentice_10_c ***)
+(**
+### Math.NET Numerics
+*)
+(*** define-output:apprentice_10_m ***)
+let rand = new MathNet.Numerics.Distributions.ContinuousUniform()
+let Z = DenseVector.random<float> 10 rand
+Z.[Vector.minAbsIndex(Z - z)] |> printfn "%A"
+(*** include-output:apprentice_10_m ***)
+
+
+(**
+# Journeyman
+## 1. Consider the following file:
+*)
+1,2,3,4,5
+6,,,7,8
+,,9,10,11
+(**
+## How to read it ?
+I used build-in functions(System.IO etc) and [Math.Net Numerics Data Text](https://www.nuget.org/packages/MathNet.Numerics.Data.Text/) here.
+It is a good idea to use [F# Data: CSV Type Provider](http://fsharp.github.io/FSharp.Data/index.html) instead of these strategies.
+*)
+(**
+### F# Core Library
+*)
+(*** define-output:journeyman_1_c ***)
+let Z = System.IO.File.ReadAllLines "missing.dat" |> 
+    Array.map (fun z -> z.Split ',') 
+printfn "%A" Z
+(*** include-output:journeyman_1_c ***)
+(**
+### Math.NET Numerics
+*)
+(*** define-output:journeyman_1_m ***)
+let Z = DelimitedReader.Read<double>( "missing.dat", false, ",", false);
+printfn "%A" Z
+(*** include-output:journeyman_1_m ***)
 
 (**
 ... To be continued.
