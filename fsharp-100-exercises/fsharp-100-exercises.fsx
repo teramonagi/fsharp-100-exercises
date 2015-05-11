@@ -644,6 +644,65 @@ let Z = DelimitedReader.Read<double>( "missing.dat", false, ",", false);
 printfn "%A" Z
 (*** include-output:journeyman_1_m ***)
 
+
+(**
+## 2. Consider a generator function that generates 10 integers and use it to build an array
+### F# Core Library
+*)
+(*** define-output:journeyman_2_c ***)
+let generate() = seq { 0..10 }
+//or 
+//let generate() = seq { for i in 0..9 do yield i}
+//or
+//let generate() = seq { for i in 0..9 -> i}
+let Z = generate() |> Array.ofSeq
+printfn "%A" Z
+(*** include-output:journeyman_2_c ***)
+
+(**
+### Math.NET Numerics
+*)
+(*** define-output:journeyman_2_m ***)
+let generate() = seq { for i in 0..9 -> float i}
+let Z = generate() |> DenseVector.ofSeq
+printfn "%A" Z
+(*** include-output:journeyman_2_m ***)
+
+(**
+## 3. Consider a given vector, how to add 1 to each element indexed by a second vector (be careful with repeated indices) ?
+### F# Core Library
+(Not so good code...)
+*)
+(*** define-output:journeyman_3_c ***)
+let rand = System.Random()
+let Z = Array.create 10 1
+let I = Array.init 20 (fun _ -> rand.Next(Array.length Z))
+I |> Seq.countBy id |> Seq.iter (fun i -> Z.[fst i] <- Z.[fst i] + snd i)
+printfn "%A" Z
+(*** include-output:journeyman_3_c ***)
+
+(**
+### Math.NET Numerics
+It is difficult to write with Math.NET for me...
+*)
+
+(**
+## 4. How to accumulate elements of a vector (X) to an array (F) based on an index list (I) ?
+### F# Core Library
+*)
+(*** define-output:journeyman_4_c ***)
+let X = [|1; 2; 3; 4; 5; 6|]
+let I = [|1; 3; 9; 3; 4; 1|]
+let F = Array.zeroCreate<int> (Array.max I + 1)
+Array.zip I X |> Array.iter (fun x -> F.[fst x] <- F.[fst x] + snd x)
+printfn "%A" F
+(*** include-output:journeyman_4_c ***)
+
+(**
+### Math.NET Numerics
+It is difficult to write with Math.NET for me...
+*)
+
 (**
 ... To be continued.
 *)
