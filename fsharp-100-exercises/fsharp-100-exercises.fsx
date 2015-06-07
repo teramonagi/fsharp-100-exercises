@@ -704,5 +704,51 @@ It is difficult to write with Math.NET for me...
 *)
 
 (**
+## 5. Considering a (w,h,3) image of (dtype=ubyte), compute the number of unique colors
+### F# Core Library
+*)
+(*** define-output:journeyman_5_c ***)
+let rand = System.Random()
+let w, h = 16, 16
+let I = Array.init 3 (fun _ -> Array2D.init w h (fun _ _ -> rand.Next(2)))
+let F = I |> Array.mapi (fun i x -> Array2D.map ((*) (int (256.0**(float i)))) x)
+let n = (F |> Array.map  (fun x -> x |> Seq.cast<int> |> Seq.distinct |> Set.ofSeq) |> Array.reduce Set.union) |> Set.count
+printfn "%A" (I |> Array.map  (fun x -> x |> Seq.cast<int> |> Seq.distinct |> Set.ofSeq) |> Array.reduce Set.intersect)
+(*** include-output:journeyman_5_c ***)
+
+(**
+### Math.NET Numerics
+*)
+
+(**
+## 6. Considering a four dimensions array, how to get sum over the last two axis at once ?
+### F# Core Library
+*)
+(*** define-output:journeyman_6_c ***)
+let rand = System.Random()
+let A = Array.init 3 (fun _ -> Array.init 4 (fun _ -> Array2D.init 3 4 (fun _ _ -> rand.Next(10))))
+let sum = A |> Array.map (fun a -> Array.map (Seq.cast<int> >> Seq.sum) a)
+printfn "%A" sum
+(*** include-output:journeyman_6_c ***)
+
+(**
+### Math.NET Numerics
+*)
+
+
+(**
+## 7. Considering a one-dimensional vector D, how to compute means of subsets of D using a vector S of same size describing subset indices ?
+### F# Core Library
+*)
+(*** define-output:journeyman_7_c ***)
+let rand = System.Random()
+let D = Array.init 100 (fun _ -> rand.NextDouble())
+let S = Array.init 100 (fun _ -> rand.Next(10))
+let D_means = Seq.zip S D |> Seq.groupBy (fun pair -> fst pair) |> Seq.map (fun (key, value) -> Seq.averageBy snd value )
+printfn "%A" D_means
+(*** include-output:journeyman_7_c ***)
+
+
+(**
 ... To be continued.
 *)
